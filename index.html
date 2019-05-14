@@ -1,0 +1,39 @@
+<html>
+    <head>
+    </head>
+    <body>
+        
+        <div id="test">
+            <a href="#">outbound link</a>
+            <a href="#">outbound link 2</a>
+        </div>
+        
+        <script>
+            
+            
+            window.onload = function(){
+
+                const div_to_parse = "test" // id of the div to parse
+
+                const div = document.getElementById(div_to_parse)
+                const links = div.querySelectorAll("a")
+                links.forEach(link => {
+
+                    link.onclick = function(){
+                        ga('send', 'event', 'Outbound Domain', 'click', 1);
+                    }
+
+                })
+
+            }
+            
+            function ga(a, b, c, d, e){
+                
+                // Event
+                alert('test')
+            }
+            
+        </script>
+    </body>
+    
+</html>
