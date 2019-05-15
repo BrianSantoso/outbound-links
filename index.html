@@ -4,8 +4,8 @@
     <body>
         
         <div id="test">
-            <a href="#">outbound link</a>
-            <a href="#">outbound link 2</a>
+            <a href='https://www.google.com'>outbound link</a> <br>
+            <a href="#">inbound link (do not call event)</a>
         </div>
         
         <script>
@@ -16,7 +16,8 @@
                 const div_to_parse = "test" // id of the div to parse
 
                 const div = document.getElementById(div_to_parse)
-                const links = div.querySelectorAll("a")
+                let links = div.querySelectorAll("a")
+                links = Array.prototype.filter.call(links, isOutbound)
                 links.forEach(link => {
 
                     link.onclick = function(){
@@ -27,10 +28,21 @@
 
             }
             
+            function isOutbound(link){
+                const url = link.getAttribute('href')
+                const host = window.location.hostname.toLowerCase()
+                const regex = new RegExp('^(?:(?:f|ht)tp(?:s)?\:)?//(?:[^\@]+\@)?([^:/]+)', 'im')
+                const match = url.match(regex)
+                const domain = ((match ? match[1].toString() : ((url.indexOf(':') < 0) ? host : ''))).toLowerCase()
+                
+                return domain != host
+            }
+            
+            
             function ga(a, b, c, d, e){
                 
                 // Event
-                alert('test')
+                alert('Outbound link')
             }
             
         </script>
